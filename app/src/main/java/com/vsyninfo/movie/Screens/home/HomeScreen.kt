@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.vsyninfo.movie.navigation.MovieNavigation
+import com.vsyninfo.movie.navigation.MovieScreens
 import com.vsyninfo.movie.ui.theme.MovieTheme
 import com.vsyninfo.movie.ui.theme.Shapes
 
@@ -87,7 +88,8 @@ fun MainContent(navController: NavController,
     Column(modifier = Modifier.padding()) {
         LazyColumn {
             items(items = movieList) {
-                movieCard(it) {
+                movieCard(it) {movie ->
+                    navController.navigate(MovieScreens.DetailsScreen.name+"/$movie",)
                     Log.d("TAG", "Movie $it")
                 }
             }
@@ -110,9 +112,9 @@ fun movieCard(
         corner = CornerSize(10.dp),
     ), elevation = 5.dp) {
         Row(
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.Top,
-            modifier = Modifier.padding(top = 10.dp)
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+
         ) {
             Surface(
                 modifier = Modifier
