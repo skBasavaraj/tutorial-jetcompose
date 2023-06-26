@@ -1,12 +1,10 @@
 package com.vsyninfo.movie.Screens.home
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +19,17 @@ fun DetailScreen(navController: NavController, string: String?) {
          .fillMaxWidth()
          .fillMaxHeight(),
      topBar = { TopAppBar(backgroundColor = Color.Blue) {
-     Text(text = "Details Screen")
+         Row(horizontalArrangement = Arrangement.Center) {
+             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "",
+             modifier = Modifier.clickable {
+                 navController.popBackStack()
+             })
+         }
+     Text(text = string!!, style = MaterialTheme.typography.h6, color = Color.White)
      }}) {
          Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-             Text(text ="Details Screen"+string,
+             Text(text ="Details Screen\n"+string,
+                 style = MaterialTheme.typography.h2,
                  fontFamily = FontFamily.SansSerif,
                  fontWeight = FontWeight.ExtraBold)
          }

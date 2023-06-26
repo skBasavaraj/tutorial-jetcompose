@@ -118,19 +118,15 @@ fun movieCard(
         ) {
             Surface(
                 modifier = Modifier
-                    .padding(1.dp)
+                    .padding(horizontal = 10.dp)
                     .width(100.dp)
                     .height(90.dp), shape = RoundedCornerShape(corner = CornerSize(10)),
                 elevation = 10.dp
             ) {
-                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "")
+
+                 Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "", )
 
             }
-            Text(
-                text = "Hello $s!",
-                fontSize = TextUnit.Unspecified,
-                fontWeight = FontWeight.ExtraBold
-            )
             Text(
                 text = "Hello $s!",
                 fontSize = TextUnit.Unspecified,
