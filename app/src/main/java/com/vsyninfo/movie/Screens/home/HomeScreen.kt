@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -16,14 +17,24 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.vsyninfo.movie.R
+import com.vsyninfo.movie.model.Movie
+import com.vsyninfo.movie.model.getMovie
 import com.vsyninfo.movie.navigation.MovieNavigation
 import com.vsyninfo.movie.navigation.MovieScreens
 import com.vsyninfo.movie.ui.theme.MovieTheme
@@ -52,44 +63,13 @@ fun HomeScreen(navController: NavController){
 }
 @Composable
 fun MainContent(navController: NavController,
-    movieList: List<String> = listOf(
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9"
-    )
+    movieList: List<Movie> =  getMovie()
 ) {
     Column(modifier = Modifier.padding()) {
         LazyColumn {
             items(items = movieList) {
                 movieCard(it) {movie ->
-                    navController.navigate(MovieScreens.DetailsScreen.name+"/$movie",)
+                    navController.navigate(MovieScreens.DetailsScreen.name+"/${movie.Title}",)
                     Log.d("TAG", "Movie $it")
                 }
             }
@@ -99,8 +79,8 @@ fun MainContent(navController: NavController,
 
 @Composable
 fun movieCard(
-    s: String, onITemCil
-    : (String) -> Unit = {}
+    s: Movie, onITemCil
+    : (Movie) -> Unit = {}
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -123,15 +103,40 @@ fun movieCard(
                     .height(90.dp), shape = RoundedCornerShape(corner = CornerSize(10)),
                 elevation = 10.dp
             ) {
-
-                 Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "", )
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data( s.Images[0])
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.ic_launcher_background),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.clip(RoundedCornerShape(CornerSize(5.dp)))
+                )
+               //  Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "", )
 
             }
-            Text(
-                text = "Hello $s!",
-                fontSize = TextUnit.Unspecified,
-                fontWeight = FontWeight.ExtraBold
-            )
+            Column(verticalArrangement =  Arrangement.Center) {
+                Text(
+                    text = "${s.Title}",
+                    style =MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "${s.Director}",
+                    style =MaterialTheme.typography.caption,
+                    fontWeight = FontWeight.W300,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "${s.Released}",
+                    style =MaterialTheme.typography.caption,
+                    fontWeight = FontWeight.W300,
+                    fontFamily = FontFamily.SansSerif
+                )
+            }
+
 
 
         }
