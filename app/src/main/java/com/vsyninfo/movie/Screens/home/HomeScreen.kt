@@ -3,6 +3,7 @@ package com.vsyninfo.movie.Screens.home
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,12 +15,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -82,6 +85,9 @@ fun movieCard(
     s: Movie, onITemCil
     : (Movie) -> Unit = {}
 ) {
+    var expanded by remember{
+        mutableStateOf(false)
+     }
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(150.dp)
@@ -135,6 +141,29 @@ fun movieCard(
                     fontWeight = FontWeight.W300,
                     fontFamily = FontFamily.SansSerif
                 )
+                AnimatedVisibility(visible =expanded) {
+                    Column() {
+                        Text(
+                            text = "${s.imdbRating}",
+                            style =MaterialTheme.typography.caption,
+                            fontWeight = FontWeight.W200,
+                            fontFamily = FontFamily.SansSerif
+                        )
+                        Text(
+                            text = "${s.imdbVotes}",
+                            style =MaterialTheme.typography.caption,
+                            fontWeight = FontWeight.W200,
+                            fontFamily = FontFamily.SansSerif
+                        )
+                    }
+                }
+                Icon(imageVector = Icons.Filled.ArrowDropDown,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .clickable {
+                        expanded = !expanded
+                    })
             }
 
 
