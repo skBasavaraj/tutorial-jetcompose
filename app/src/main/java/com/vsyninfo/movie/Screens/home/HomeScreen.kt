@@ -28,12 +28,13 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -92,7 +93,7 @@ fun movieCard(
      }
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(150.dp)
+
         .padding(10.dp)
         .clickable {
             onITemCil(s)
@@ -157,6 +158,27 @@ fun movieCard(
                             fontWeight = FontWeight.W200,
                             fontFamily = FontFamily.SansSerif
                         )
+                        Text( buildAnnotatedString {
+                           withStyle(
+                               style = SpanStyle(
+                                   color=Color.Gray,
+                                   fontSize = 12.sp
+                               )
+                           )
+                           {
+                               append("Plot:")
+                           }
+                            withStyle(
+                                style = SpanStyle(
+                                    color=Color.Gray,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                            {
+                                append(s.Plot)
+                            }
+                        })
                     }
                 }
                 Icon(imageVector =if(expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
